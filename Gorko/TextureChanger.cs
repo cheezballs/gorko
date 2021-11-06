@@ -12,11 +12,11 @@ namespace Gorko.CustomTextures
       private const int HTTP_COOLDOWN_SEC = 5;
 
       private ZNetView networkView;
+      
+      // for caching purposes
       private string currentDisplayedURL;
 
       protected Renderer renderer;
-
-      public string URL { get; private set; }
 
       protected abstract Renderer GetRenderer();      
       protected abstract void UpdateRenderedTexture(Texture2D newTexture);
@@ -30,19 +30,12 @@ namespace Gorko.CustomTextures
             return;
          }         
          renderer = GetRenderer();
-         
-         // init from the network
-         URL = networkView.GetZDO().GetString(PROP_KEY_URL);         
-      }
-
-      public void OnBecameVisible()
-      {
          UpdateTexture();
       }
 
       private void UpdateTexture()
       {
-         if(currentDisplayedURL != URL)
+         if(currentDisplayedURL != GetText())
          {
             FetchAndReplaceTexture();
          }
@@ -51,8 +44,7 @@ namespace Gorko.CustomTextures
       private void FetchAndReplaceTexture()
       {
          StartCoroutine(Download((string url, Texture2D texture) => {
-            networkView.ClaimOwnership();
-            networkView.GetZDO().Set(PROP_KEY_URL, url);      
+            networkView.ClaimOwnership();            
             UpdateRenderedTexture(texture);
             currentDisplayedURL = url;
          }));
@@ -60,14 +52,15 @@ namespace Gorko.CustomTextures
 
       private IEnumerator Download(Action<string, Texture2D> callback)
       {
-         using (UnityWebRequest uwr = UnityWebRequest.Get(URL))
+         string url = GetText();
+         using (UnityWebRequest uwr = UnityWebRequest.Get(url))
          {
             yield return uwr.SendWebRequest();
             if (!uwr.isHttpError && !uwr.isNetworkError)
             {
                Texture2D texture = new Texture2D(2, 2);
                texture.LoadImage(uwr.downloadHandler.data);               
-               callback.Invoke(URL, texture);
+               callback.Invoke(url, texture);
             }
          }
       }
@@ -109,7 +102,7 @@ namespace Gorko.CustomTextures
 
       public void SetText(string text)
       {
-         URL = text;
+         networkView.GetZDO().Set(PROP_KEY_URL, text);
          UpdateTexture();
       }
    }

@@ -20,7 +20,7 @@ namespace Gorko.CustomTextures
       {
          if (Piece.ComfortGroup.Banner == __instance.m_comfortGroup && !__instance.gameObject.GetComponent<ShipTextureChanger>())
          {
-            __instance.gameObject.AddComponent<BannerTextureChanger>();
+            __instance.gameObject.AddComponent<BannerTextureChanger>();            
          }
       }
    }

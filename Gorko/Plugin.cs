@@ -22,10 +22,9 @@ namespace Gorko.CustomTextures
       {
          INSTANCE = this;
          PluginEnabled = Config.Bind("General", "Enabled", true, "Enables The Plugin");
-         PromptText = Config.Bind("General", "PromptText", "Set Porno URL", "The prompt text that displays when you set an image URL.");
-         HoverText = Config.Bind("General", "HoverText", "Absolute Filth", "The text that displays when you hover over a compatible object.");
-         PollTime = Config.Bind("General", "PollTime", 5, "How long to wait between checking for updates (affects dedicated server players mostly)");
-         ComfortBonus = Config.Bind("General", "ComfortBonus", 0, "How much extra comfort a custom-textured piece of furniture provides.");
+         PromptText = Config.Bind("General", "PromptText", "Set Image URL", "The prompt text that displays when you set an image URL.");
+         HoverText = Config.Bind("General", "HoverText", "Absolute Filth", "The text that displays when you hover over a compatible object.");         
+         //ComfortBonus = Config.Bind("General", "ComfortBonus", 0, "How much extra comfort a custom-textured piece of furniture provides.");
          ModifierKeyRequired = Config.Bind("Keys", "ModifierKeyRequired", true, "Do you need to hold an additional key to do the magic?");
          ModifierKey = Config.Bind("Keys", "ModifierKey", "LeftControl", "The key to be held to trigger the magic.");
 
