@@ -14,7 +14,7 @@ namespace Gorko.CustomTextures
       }
 
       protected override void UpdateRenderedTexture(Texture2D newTexture)
-      {
+      {         
          renderer.material.SetTexture(MAIN_TEXT, newTexture);
       }
    }

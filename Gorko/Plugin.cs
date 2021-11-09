@@ -12,10 +12,10 @@ namespace Gorko.CustomTextures
       public static Plugin INSTANCE { get; private set; }
       public ConfigEntry<bool> PluginEnabled { get; private set; }
       public ConfigEntry<string> PromptText { get; private set; }
-      public ConfigEntry<string> HoverText { get; private set; }
       public ConfigEntry<string> ModifierKey { get; private set; }
+      public ConfigEntry<string> FavoriteImageURL { get; private set; }
       public ConfigEntry<bool> ModifierKeyRequired { get; private set; }
-      public ConfigEntry<int> PollTime { get; private set; }
+      public ConfigEntry<float> ServerPollTime { get; private set; }
       public ConfigEntry<int> ComfortBonus { get; private set; }
 
       public void Awake()
@@ -23,10 +23,11 @@ namespace Gorko.CustomTextures
          INSTANCE = this;
          PluginEnabled = Config.Bind("General", "Enabled", true, "Enables The Plugin");
          PromptText = Config.Bind("General", "PromptText", "Set Image URL", "The prompt text that displays when you set an image URL.");
-         HoverText = Config.Bind("General", "HoverText", "Absolute Filth", "The text that displays when you hover over a compatible object.");         
-         //ComfortBonus = Config.Bind("General", "ComfortBonus", 0, "How much extra comfort a custom-textured piece of furniture provides.");
+         ServerPollTime = Config.Bind("General", "ServerPollTime", 10.0f, "The number of seconds to wait before syncing texture changes from other clients.");
+         //ComfortBonus = Config.Bind("General", "ComfortBonus", 0, "How much extra comfort a custom-textured piece of furniture provides.");         
          ModifierKeyRequired = Config.Bind("Keys", "ModifierKeyRequired", true, "Do you need to hold an additional key to do the magic?");
          ModifierKey = Config.Bind("Keys", "ModifierKey", "LeftControl", "The key to be held to trigger the magic.");
+         FavoriteImageURL = Config.Bind("Favorites", "FavoriteImageURL", "", "If set, this image will be auto-loaded when you take-over driving a boat.");
 
          if (PluginEnabled.Value)
          {

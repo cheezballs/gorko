@@ -8,8 +8,7 @@ namespace Gorko.CustomTextures
    abstract class TextureChanger : MonoBehaviour, Hoverable, Interactable, TextReceiver
    {
       private const int URL_CHAR_LIMIT = 500;
-      private const string PROP_KEY_URL = "GORKO_Lives";
-      private const int HTTP_COOLDOWN_SEC = 5;
+      private const string PROP_KEY_URL = "GORKO_Lives";     
 
       private ZNetView networkView;
       
@@ -30,7 +29,7 @@ namespace Gorko.CustomTextures
             return;
          }         
          renderer = GetRenderer();
-         UpdateTexture();
+         InvokeRepeating("UpdateTexture", 1f, Plugin.INSTANCE.ServerPollTime.Value);
       }
 
       private void UpdateTexture()
@@ -72,7 +71,7 @@ namespace Gorko.CustomTextures
 
       public string GetHoverName()
       {
-         return Plugin.INSTANCE.AllowControls() ? Plugin.INSTANCE.HoverText.Value : null;
+         return GetHoverText();
       }
 
       public bool Interact(Humanoid character, bool hold, bool alt)

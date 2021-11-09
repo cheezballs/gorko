@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using UnityEngine;
 
 namespace Gorko.CustomTextures
 {
@@ -22,6 +23,18 @@ namespace Gorko.CustomTextures
          {
             __instance.gameObject.AddComponent<BannerTextureChanger>();            
          }
+      }
+
+      [HarmonyPatch(typeof(ShipControlls), "Interact")]
+      [HarmonyPostfix]
+      private static void ShipControls_Interact(Humanoid character, bool repeat, bool alt, ShipControlls __instance)
+      {
+         string favoriteUrl = Plugin.INSTANCE.FavoriteImageURL.Value;
+         if (!string.IsNullOrEmpty(favoriteUrl))
+         {
+            ShipTextureChanger textureChanger = __instance.GetComponentInParent<ShipTextureChanger>();
+            textureChanger.SetText(Plugin.INSTANCE.FavoriteImageURL.Value);
+         }         
       }
    }
 }
